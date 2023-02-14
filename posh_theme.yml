@@ -1,0 +1,112 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+commonFGent_color: '#ffa357'
+palettes:
+  template: '{{if eq .OS "windows" }}windows{{else}}wsl{{end}}'
+  list:
+    windows:
+      commonBG: '#202020'
+      commonFG: '#116699'
+
+    wsl:
+      commonBG: '#202020'
+      commonFG: '#bb5035'
+
+blocks:
+  - type: prompt
+    alignment: left
+    segments:
+      - type: os
+        style: diamond
+        leading_diamond: ''
+        background: 'p:commonBG'
+        foreground: 'p:commonFG'
+        template: '{{.Icon}}'
+        properties:
+          windows: ''
+
+      - type: aws
+        style: powerline
+        powerline_symbol: ''
+        background: 'p:commonBG'
+        foreground: '#bd8c0f'
+        properties:
+          display_default: true
+        template: ' {{ .Profile}}{{if .Region}}@{{ .Region }}{{ end }}'
+
+      - type: git
+        background: 'p:commonBG'
+        foreground: '#9eb2c7'
+        style: powerline
+        interactive: true
+        powerline_symbol: ''
+        properties:
+          fetch_status: true
+          fetch_stash_count: true
+          fetch_upstream_icon: true
+        template: '{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}'
+
+      - type: node
+        background: 'p:commonBG'
+        foreground: '#6CA35E'
+        style: powerline
+        powerline_symbol: ''
+        properties:
+          display_mode: files
+        template: ' {{.Major}}.{{.Minor}}.{{.Patch}}'
+
+      - type: text
+        style: powerline
+        powerline_symbol: ''
+        background: 'p:commonBG'
+        foreground: 'p:commonFG'
+        template: ''
+
+  - type: prompt
+    alignment: right
+    filler: '<p:commonBG>•-•</>'
+    segments:
+      - type: time
+        style: diamond
+        leading_diamond: ''
+        background: 'p:commonBG'
+        foreground: '#b8b8b8'
+
+      - type: exit
+        style: diamond
+        background: 'p:commonBG'
+        trailing_diamond: ''
+        properties:
+          always_enabled: true
+        foreground_templates:
+          - '{{ if gt .Code 0 }}#a72f28{{else}}#679b19{{ end }}'
+        template: '{{ if gt .Code 0 }}{{else}}{{ end }}'
+
+  - type: prompt
+    alignment: left
+    newline: true
+    segments:
+      - type: path
+        background: 'transparent'
+        foreground: 'p:commonFG'
+        properties:
+          folder_icon: ''
+          folder_separator_icon: '<foreground><b> / </b></>'
+          home_icon: ''
+          mapped_locations:
+            '~\Desktop': ' Desk'
+            '/mnt/c/Users/Christopher/Desktop': ' Win Desk'
+            '~/Documents': ' Docs'
+            '/mnt/c/Users/Christopher': ' Win Home'
+            '/mnt/c/Users/Christopher/Documents': ' Win Docs'
+          mixed_threshold: 6
+          style: mixed
+        style: plain
+        template: ' {{ .Path }} > '
+
+      - type: root
+        background: 'transparent'
+        foreground: '#DD2222'
+        style: diamond
+        template: ' sudo '
+
+version: 2
